@@ -50,7 +50,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
         'Total Cost (Million AED)': state_costs,
         'Total Income (Million AED)': state_incomes
     })
-    st.info(plot_df.head(5))
+    st.dataframe(plot_df.head(5))
 
     fig = px.line(plot_df,
                   x='Year',
