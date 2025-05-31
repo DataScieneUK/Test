@@ -140,22 +140,22 @@ with col8:
     else:
         st.warning("Column 'Number of Doctors' not found for chart.")
 
-# --- Chart 9: Distribution of Patients by Hospital Rate (Selected Year) ---
-with col9:
-    st.subheader(f"Patients by Rating ({selected_year})")
-    patient_col_rate = f'Number of patients in {selected_year}'
-    if 'Hospital rate' in df_hospitals.columns and patient_col_rate in df_hospitals.columns:
-        # Convert to numeric and filter NaN again for this specific chart's data if needed
-        df_temp_rate = df_hospitals.dropna(subset=['Hospital rate', patient_col_rate]).copy()
-        if not df_temp_rate.empty:
-            bins = [0, 3.0, 4.0, 5.0]
-            labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
-            df_temp_rate['Rating Group'] = pd.cut(df_temp_rate['Hospital rate'], bins=bins, labels=labels, right=False)
-            create_pie_chart(df_temp_rate, 'Rating Group', patient_col_rate, f'Patient Distribution by Rating in {selected_year}')
-        else:
-            st.warning(f"No valid data for Patients by Rating for '{selected_year}' after removing missing values.")
-    else:
-        st.warning(f"Columns 'Hospital rate' or '{patient_col_rate}' not found for chart.")
+# # --- Chart 9: Distribution of Patients by Hospital Rate (Selected Year) ---
+# with col9:
+#     st.subheader(f"Patients by Rating ({selected_year})")
+#     patient_col_rate = f'Number of patients in {selected_year}'
+#     if 'Hospital rate' in df_hospitals.columns and patient_col_rate in df_hospitals.columns:
+#         # Convert to numeric and filter NaN again for this specific chart's data if needed
+#         df_temp_rate = df_hospitals.dropna(subset=['Hospital rate', patient_col_rate]).copy()
+#         if not df_temp_rate.empty:
+#             bins = [0, 3.0, 4.0, 5.0]
+#             labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
+#             df_temp_rate['Rating Group'] = pd.cut(df_temp_rate['Hospital rate'], bins=bins, labels=labels, right=False)
+#             create_pie_chart(df_temp_rate, 'Rating Group', patient_col_rate, f'Patient Distribution by Rating in {selected_year}')
+#         else:
+#             st.warning(f"No valid data for Patients by Rating for '{selected_year}' after removing missing values.")
+#     else:
+#         st.warning(f"Columns 'Hospital rate' or '{patient_col_rate}' not found for chart.")
 
 # --- Chart 10: Distribution of Treatment Types (Requires splitting and counting) ---
 # st.markdown("---") # Separator for the last chart if it's on a new row
