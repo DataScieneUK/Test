@@ -21,6 +21,13 @@ icon = "📈"
 
 
 
+
+[[pages]]
+path = "pages/Hospital Reviews Charts.py"
+title = "📊 Hospital Reviews Charts"
+icon = "📈"
+
+
 [[pages]]
 path = "pages/Distribution Charts.py"
 title = "📊 Data Distributions"
