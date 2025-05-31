@@ -22,7 +22,7 @@ else:
 years = [2020, 2021, 2022, 2023, 2024, 2025]
 cost_cols = [f'total cost of the hospital in {year} (million AED)' for year in years]
 income_cols = [f'total income of the hospital in {year} (million AED)' for year in years]
-st.info(cost_cols[0])
+
 
 required_cols_for_plot = ['State'] + cost_cols + income_cols
 
@@ -43,6 +43,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
 
     state_costs = [df_state[col].sum() for col in cost_cols]
     state_incomes = [df_state[col].sum() for col in income_cols]
+    st.info(state_costs[0])
 
     plot_df = pd.DataFrame({
         'Year': years,
