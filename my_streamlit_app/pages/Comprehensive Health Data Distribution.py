@@ -71,36 +71,36 @@ with col1:
     state_counts.columns = ['State', 'Count']
     create_pie_chart(state_counts, 'State', 'Count', 'Distribution of Hospitals by State')
 
-# --- Chart 2: Distribution of Hospitals by Hospital Rate (Grouped) ---
-with col2:
-    st.subheader("Hospital Rating Distribution")
-    if 'Hospital rate' in df_hospitals.columns:
-        # Filter out NaN values before cutting
-        df_temp = df_hospitals.dropna(subset=['Hospital rate']).copy()
-        if not df_temp.empty:
-            bins = [0, 3.0, 4.0, 5.0]
-            labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
-            # Ensure bins cover the range of your data, max rate is 5.0, so 5.0 is fine for upper bound
-            # Use pd.cut only on the temporary DataFrame without NaNs
-            df_temp['Rating Group'] = pd.cut(df_temp['Hospital rate'], bins=bins, labels=labels, right=False)
-            rating_counts = df_temp['Rating Group'].value_counts().reset_index()
-            rating_counts.columns = ['Rating Group', 'Count']
-            # Drop NaN category from rating_counts if any (from values outside bins)
-            rating_counts = rating_counts.dropna(subset=['Rating Group'])
-            create_pie_chart(rating_counts, 'Rating Group', 'Count', 'Distribution of Hospital Ratings')
-        else:
-            st.warning("No valid 'Hospital rate' data after removing missing values.")
-    else:
-        st.warning("Column 'Hospital rate' not found for chart.")
-
-# # --- Chart 3: Distribution of Patients by State for Selected Year ---
-# with col3:
-#     st.subheader(f"Patients by State ({selected_year})")
-#     patient_col = f'Number of patients in {selected_year}'
-#     if patient_col in df_hospitals.columns:
-#         create_pie_chart(df_hospitals, 'State', patient_col, f'Patient Distribution by State in {selected_year}')
+# # --- Chart 2: Distribution of Hospitals by Hospital Rate (Grouped) ---
+# with col2:
+#     st.subheader("Hospital Rating Distribution")
+#     if 'Hospital rate' in df_hospitals.columns:
+#         # Filter out NaN values before cutting
+#         df_temp = df_hospitals.dropna(subset=['Hospital rate']).copy()
+#         if not df_temp.empty:
+#             bins = [0, 3.0, 4.0, 5.0]
+#             labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
+#             # Ensure bins cover the range of your data, max rate is 5.0, so 5.0 is fine for upper bound
+#             # Use pd.cut only on the temporary DataFrame without NaNs
+#             df_temp['Rating Group'] = pd.cut(df_temp['Hospital rate'], bins=bins, labels=labels, right=False)
+#             rating_counts = df_temp['Rating Group'].value_counts().reset_index()
+#             rating_counts.columns = ['Rating Group', 'Count']
+#             # Drop NaN category from rating_counts if any (from values outside bins)
+#             rating_counts = rating_counts.dropna(subset=['Rating Group'])
+#             create_pie_chart(rating_counts, 'Rating Group', 'Count', 'Distribution of Hospital Ratings')
+#         else:
+#             st.warning("No valid 'Hospital rate' data after removing missing values.")
 #     else:
-#         st.warning(f"Column '{patient_col}' not found for chart.")
+#         st.warning("Column 'Hospital rate' not found for chart.")
+
+# --- Chart 3: Distribution of Patients by State for Selected Year ---
+with col3:
+    st.subheader(f"Patients by State ({selected_year})")
+    patient_col = f'Number of patients in {selected_year}'
+    if patient_col in df_hospitals.columns:
+        create_pie_chart(df_hospitals, 'State', patient_col, f'Patient Distribution by State in {selected_year}')
+    else:
+        st.warning(f"Column '{patient_col}' not found for chart.")
 
 # # --- New Row of Charts ---
 # col4, col5, col6 = st.columns(3)
