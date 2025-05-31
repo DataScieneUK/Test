@@ -102,35 +102,35 @@ with col3:
     else:
         st.warning(f"Column '{patient_col}' not found for chart.")
 
-# # --- New Row of Charts ---
-# col4, col5, col6 = st.columns(3)
+# --- New Row of Charts ---
+col4, col5, col6 = st.columns(3)
 
-# # --- Chart 4: Distribution of Total Cost by State for Selected Year ---
-# with col4:
-#     st.subheader(f"Total Cost by State ({selected_year})")
-#     cost_col = f'total cost of the hospital in {selected_year} (million AED)'
-#     if cost_col in df_hospitals.columns:
-#         create_pie_chart(df_hospitals, 'State', cost_col, f'Cost Distribution by State in {selected_year}')
-#     else:
-#         st.warning(f"Column '{cost_col}' not found for chart.")
+# --- Chart 4: Distribution of Total Cost by State for Selected Year ---
+with col4:
+    st.subheader(f"Total Cost by State ({selected_year})")
+    cost_col = f'total cost of the hospital in {selected_year} (million AED)'
+    if cost_col in df_hospitals.columns:
+        create_pie_chart(df_hospitals, 'State', cost_col, f'Cost Distribution by State in {selected_year}')
+    else:
+        st.warning(f"Column '{cost_col}' not found for chart.")
 
-# # --- Chart 5: Distribution of Total Income by State for Selected Year ---
-# with col5:
-#     st.subheader(f"Total Income by State ({selected_year})")
-#     income_col = f'total income of the hospital in {selected_year} (million AED)'
-#     if income_col in df_hospitals.columns:
-#         create_pie_chart(df_hospitals, 'State', income_col, f'Income Distribution by State in {selected_year}')
-#     else:
-#         st.warning(f"Column '{income_col}' not found for chart.")
+# --- Chart 5: Distribution of Total Income by State for Selected Year ---
+with col5:
+    st.subheader(f"Total Income by State ({selected_year})")
+    income_col = f'total income of the hospital in {selected_year} (million AED)'
+    if income_col in df_hospitals.columns:
+        create_pie_chart(df_hospitals, 'State', income_col, f'Income Distribution by State in {selected_year}')
+    else:
+        st.warning(f"Column '{income_col}' not found for chart.")
 
-# # --- Chart 6: Distribution of Total Surgeries by State for Selected Year ---
-# with col6:
-#     st.subheader(f"Total Surgeries by State ({selected_year})")
-#     surgeries_col = f'total number of surgeries in {selected_year}'
-#     if surgeries_col in df_hospitals.columns:
-#         create_pie_chart(df_hospitals, 'State', surgeries_col, f'Surgeries Distribution by State in {selected_year}')
-#     else:
-#         st.warning(f"Column '{surgeries_col}' not found for chart.")
+# --- Chart 6: Distribution of Total Surgeries by State for Selected Year ---
+with col6:
+    st.subheader(f"Total Surgeries by State ({selected_year})")
+    surgeries_col = f'total number of surgeries in {selected_year}'
+    if surgeries_col in df_hospitals.columns:
+        create_pie_chart(df_hospitals, 'State', surgeries_col, f'Surgeries Distribution by State in {selected_year}')
+    else:
+        st.warning(f"Column '{surgeries_col}' not found for chart.")
 
 # # --- New Row of Charts ---
 # col7, col8, col9 = st.columns(3)
