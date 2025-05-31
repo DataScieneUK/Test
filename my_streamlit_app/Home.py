@@ -81,7 +81,7 @@ with col_left:
 
 with col_right:
     if os.path.exists(MAIN_CONTENT_IMAGE_PATH):
-        st.image(MAIN_CONTENT_IMAGE_PATH, caption="Leveraging Technology for Health Insights", use_column_width=True)
+        st.image(MAIN_CONTENT_IMAGE_PATH, caption="Leveraging Technology for Health Insights", use_container_width=True)
     else:
         st.warning(f"Main content image not found at: {MAIN_CONTENT_IMAGE_PATH}")
 
