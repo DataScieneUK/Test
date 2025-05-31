@@ -37,7 +37,7 @@ st.subheader(f"البيانات للسنة: {selected_year}")
 # **هنا التعديل الرئيسي:** بناء المسار الكامل للملف
 csv_file_name = f"{selected_year}.csv"
 # ندمج المسار الحالي مع اسم الملف لتشكيل المسار الكامل
-full_file_path = os.path.join(current_directory, csv_file_name)
+full_file_path = os.path.join(current_directory + r"/my_streamlit_app/"+, csv_file_name)
 st.info(f"المسار الكامل لملف التطبيق (`app.py`): **`{os.path.abspath(__file__)}`**")
 st.info(f"المسار555555 الحالي للتطبيق: **`{current_directory}`**")
 st.info(f"المسار555555 الحالي للتطبيق: **`{full_file_path}`**")
