@@ -72,7 +72,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     fig.update_yaxes(rangemode="tozero")
     fig.update_layout(hovermode="x unified")
     fig.update_layout(xaxis_range=[2020, 2025])
-    fig.update_layout(yaxis_range=[min_value, max_value])
+    fig.update_layout(yaxis_range=[y_min, y_max])
 
 
     st.plotly_chart(fig, use_container_width=True)
