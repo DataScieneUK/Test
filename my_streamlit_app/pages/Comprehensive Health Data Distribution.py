@@ -8,7 +8,6 @@ st.markdown("---")
 
 # --- Define Path for Data ---
 app_directory = os.path.dirname(os.path.abspath(__file__))
-# Navigate up one directory to reach the main project folder where UAE_hospitals_data.csv is located
 data_directory = os.path.abspath(os.path.join(app_directory, os.pardir))
 HOSPITALS_DATA_PATH = os.path.join(data_directory, "UAE_hospitals_data.csv")
 
@@ -17,6 +16,11 @@ df_hospitals = pd.DataFrame()
 if os.path.exists(HOSPITALS_DATA_PATH):
     try:
         df_hospitals = pd.read_csv(HOSPITALS_DATA_PATH)
+        # Convert 'Hospital rate' to numeric, coercing errors
+        if 'Hospital rate' in df_hospitals.columns:
+            df_hospitals['Hospital rate'] = pd.to_numeric(df_hospitals['Hospital rate'], errors='coerce')
+            # Optionally, drop rows where Hospital rate became NaN if they are not useful
+            # df_hospitals.dropna(subset=['Hospital rate'], inplace=True)
     except Exception as e:
         st.error(f"Error reading hospital data file: {e}. Please ensure 'UAE_hospitals_data.csv' is in your main project folder.")
 else:
@@ -70,15 +74,22 @@ with col1:
 # --- Chart 2: Distribution of Hospitals by Hospital Rate (Grouped) ---
 with col2:
     st.subheader("Hospital Rating Distribution")
-    # Group hospital rates into broader categories if they are too granular
     if 'Hospital rate' in df_hospitals.columns:
-        # Example: Group rates into bins
-        bins = [0, 3.0, 4.0, 5.0]
-        labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
-        df_hospitals['Rating Group'] = pd.cut(df_hospitals['Hospital rate'], bins=bins, labels=labels, right=False)
-        rating_counts = df_hospitals['Rating Group'].value_counts().reset_index()
-        rating_counts.columns = ['Rating Group', 'Count']
-        create_pie_chart(rating_counts, 'Rating Group', 'Count', 'Distribution of Hospital Ratings')
+        # Filter out NaN values before cutting
+        df_temp = df_hospitals.dropna(subset=['Hospital rate']).copy()
+        if not df_temp.empty:
+            bins = [0, 3.0, 4.0, 5.0]
+            labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
+            # Ensure bins cover the range of your data, max rate is 5.0, so 5.0 is fine for upper bound
+            # Use pd.cut only on the temporary DataFrame without NaNs
+            df_temp['Rating Group'] = pd.cut(df_temp['Hospital rate'], bins=bins, labels=labels, right=False)
+            rating_counts = df_temp['Rating Group'].value_counts().reset_index()
+            rating_counts.columns = ['Rating Group', 'Count']
+            # Drop NaN category from rating_counts if any (from values outside bins)
+            rating_counts = rating_counts.dropna(subset=['Rating Group'])
+            create_pie_chart(rating_counts, 'Rating Group', 'Count', 'Distribution of Hospital Ratings')
+        else:
+            st.warning("No valid 'Hospital rate' data after removing missing values.")
     else:
         st.warning("Column 'Hospital rate' not found for chart.")
 
@@ -134,7 +145,11 @@ with col7:
             'Sentiment': ['Positive Reviews', 'Negative Reviews'],
             'Count': [total_positive, total_negative]
         })
-        create_pie_chart(sentiment_df, 'Sentiment', 'Count', 'Overall Review Sentiment')
+        # Only create chart if there's actual data for sentiment
+        if total_positive > 0 or total_negative > 0:
+            create_pie_chart(sentiment_df, 'Sentiment', 'Count', 'Overall Review Sentiment')
+        else:
+            st.warning("No review data (positive/negative) to display for chart.")
     else:
         st.warning("Columns 'positive reviews' or 'negative reviews' not found for chart.")
 
@@ -151,26 +166,33 @@ with col9:
     st.subheader(f"Patients by Rating ({selected_year})")
     patient_col_rate = f'Number of patients in {selected_year}'
     if 'Hospital rate' in df_hospitals.columns and patient_col_rate in df_hospitals.columns:
-        # Group hospital rates into broader categories for this chart too
-        bins = [0, 3.0, 4.0, 5.0]
-        labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
-        df_hospitals['Rating Group'] = pd.cut(df_hospitals['Hospital rate'], bins=bins, labels=labels, right=False)
-        create_pie_chart(df_hospitals, 'Rating Group', patient_col_rate, f'Patient Distribution by Rating in {selected_year}')
+        # Convert to numeric and filter NaN again for this specific chart's data if needed
+        df_temp_rate = df_hospitals.dropna(subset=['Hospital rate', patient_col_rate]).copy()
+        if not df_temp_rate.empty:
+            bins = [0, 3.0, 4.0, 5.0]
+            labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
+            df_temp_rate['Rating Group'] = pd.cut(df_temp_rate['Hospital rate'], bins=bins, labels=labels, right=False)
+            create_pie_chart(df_temp_rate, 'Rating Group', patient_col_rate, f'Patient Distribution by Rating in {selected_year}')
+        else:
+            st.warning(f"No valid data for Patients by Rating for '{selected_year}' after removing missing values.")
     else:
         st.warning(f"Columns 'Hospital rate' or '{patient_col_rate}' not found for chart.")
 
 # --- Chart 10: Distribution of Treatment Types (Requires splitting and counting) ---
-# This chart might be complex if 'Types of treatment it contains' is a comma-separated string.
-# We will split it and count occurrences.
-st.markdown("---")
+st.markdown("---") # Separator for the last chart if it's on a new row
 st.subheader("Distribution of Treatment Types")
 if 'Types of treatment it contains' in df_hospitals.columns:
-    # Split the string by comma and stack them to count individual types
-    all_treatments = df_hospitals['Types of treatment it contains'].dropna().str.split(',').explode().str.strip()
+    # Ensure column is string type before splitting
+    all_treatments = df_hospitals['Types of treatment it contains'].astype(str).dropna().str.split(',').explode().str.strip()
     if not all_treatments.empty:
         treatment_counts = all_treatments.value_counts().reset_index()
         treatment_counts.columns = ['Treatment Type', 'Count']
-        create_pie_chart(treatment_counts, 'Treatment Type', 'Count', 'Overall Distribution of Treatment Types')
+        # Filter out empty strings that might result from splitting
+        treatment_counts = treatment_counts[treatment_counts['Treatment Type'] != '']
+        if not treatment_counts.empty:
+            create_pie_chart(treatment_counts, 'Treatment Type', 'Count', 'Overall Distribution of Treatment Types')
+        else:
+            st.warning("No valid treatment types found after processing.")
     else:
         st.warning("No valid treatment types found in the data.")
 else:
