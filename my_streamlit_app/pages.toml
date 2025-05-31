@@ -1,0 +1,50 @@
+# .streamlit/pages.toml
+
+# Specify the main page (optional, app.py is default)
+main_page = "app.py"
+
+# Define the order and properties of your pages
+[[pages]]
+path = "pages/UAE Hospital Details.py"
+title = "🗺️ Hospital Map" # Custom title
+icon = "🗺️" # Custom icon
+
+[[pages]]
+path = "pages/State Cost Income.py"
+title = "💰 Costs & Income Trends"
+icon = "📈"
+
+[[pages]]
+path = "pages/Comprehensive Health Data Distribution.py"
+title = "💰 Comprehensive Health Data Distribution"
+icon = "📈"
+
+
+
+[[pages]]
+path = "pages/Distribution Charts.py"
+title = "📊 Data Distributions"
+icon = "📈"
+
+
+[[pages]]
+path = "pages/Detailed Scatter Plot Analysis.py"
+title = "🖼️ Scatter Plot"
+icon = "🖼️"
+
+
+[[pages]]
+path = "pages/Word Cloud.py"
+title = "🖼️ Word Cloud"
+icon = "🖼️"
+
+# You can also include pages not in 'pages/' folder if desired
+# [[pages]]
+# path = "another_page.py"
+# title = "Another Page"
+# icon = "✨"
+
+# To hide a page from sidebar:
+# [[pages]]
+# path = "pages/hidden_page.py"
+# sidebar = false
