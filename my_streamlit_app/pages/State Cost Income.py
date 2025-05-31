@@ -59,18 +59,28 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     y_max1 = y_sorted1.max()
     y_min2 = y_sorted2.min()
     y_max2 = y_sorted2.max()
+    df_long = plot_df.melt(id_vars='Year', value_vars=['Total Cost (Million AED)', 'Total Income (Million AED)'], 
+                  var_name='Line', value_name='Value')
 
-    fig = px.line(plot_df,
-                  x='Year',
-                  y='Total Cost (Million AED)',
-                  y='Total Income (Million AED)',
-                  # y=['Total Cost (Million AED)', 'Total Income (Million AED)'],
+    fig = px.line(df_long, x='Year', y='Value', color='Line',
                   title=f'Hospital Financial Performance in {selected_state}',
                   labels={'value': 'Amount (Million AED)', 'variable': 'Metric'},
-                  hover_data={'Total Cost (Million AED)': ':.2f','Year': True},
-                  # hover_data={'Total Cost (Million AED)': ':.2f','Total Income (Million AED)': ':.2f','Year': True},
+                  # hover_data={'Total Cost (Million AED)': ':.2f','Year': True},
+                  hover_data={'Total Cost (Million AED)': ':.2f','Total Income (Million AED)': ':.2f','Year': True},
                   line_shape="linear"
                  )
+
+    # fig = px.line(plot_df,
+    #               x='Year',
+    #               y='Total Cost (Million AED)',
+    #               y='Total Income (Million AED)',
+    #               # y=['Total Cost (Million AED)', 'Total Income (Million AED)'],
+    #               title=f'Hospital Financial Performance in {selected_state}',
+    #               labels={'value': 'Amount (Million AED)', 'variable': 'Metric'},
+    #               hover_data={'Total Cost (Million AED)': ':.2f','Year': True},
+    #               # hover_data={'Total Cost (Million AED)': ':.2f','Total Income (Million AED)': ':.2f','Year': True},
+    #               line_shape="linear"
+    #              )
 
     fig.update_xaxes(tickmode='linear', dtick=1)
     fig.update_yaxes(rangemode="tozero")
