@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px # استيراد plotly.express
 import os
 
 # --- إعدادات الصفحة ---
@@ -13,10 +13,11 @@ st.set_page_config(
 st.title("📊 محلل بيانات السنوات")
 st.markdown("---")
 
-# عرض المسار الحالي للتطبيق
-current_directory = os.getcwd()
-
-st.warning("تأكد أن ملفات CSV موجودة في هذا المسار لتجنب الأخطاء.")
+# عرض المسار الحالي لملف التطبيق والمجلد الذي يتواجد فيه
+#st.info(f"المسار الكامل لملف التطبيق (`app.py`): **`{os.path.abspath(__file__)}`**")
+app_directory = os.path.dirname(os.path.abspath(__file__))
+#st.info(f"مجلد التطبيق (المتوقع لملفات CSV): **`{app_directory}`**")
+st.warning("تأكد أن جميع ملفات CSV موجودة في هذا المسار لتجنب الأخطاء.")
 
 # --- قائمة السنوات المتاحة ---
 years = list(range(2020, 2026))
@@ -34,13 +35,11 @@ st.sidebar.info("هذا التطبيق يعرض بيانات من ملفات CSV
 # --- المنطقة الرئيسية لعرض البيانات ---
 st.subheader(f"البيانات للسنة: {selected_year}")
 
-# **هنا التعديل الرئيسي:** بناء المسار الكامل للملف
+# اسم الملف المتوقع
 csv_file_name = f"{selected_year}.csv"
-# ندمج المسار الحالي مع اسم الملف لتشكيل المسار الكامل
+# ندمج مجلد التطبيق مع اسم الملف لتشكيل المسار الكامل
+#full_file_path = os.path.join(app_directory, csv_file_name)
 full_file_path = os.path.join(current_directory + r"/my_streamlit_app/", csv_file_name)
-st.info(f"المسار الكامل لملف التطبيق (`app.py`): **`{os.path.abspath(__file__)}`**")
-st.info(f"المسار555555 الحالي للتطبيق: **`{current_directory}`**")
-st.info(f"المسار555555 الحالي للتطبيق: **`{full_file_path}`**")
 # التحقق مما إذا كان الملف موجودًا باستخدام المسار الكامل
 if os.path.exists(full_file_path):
     try:
@@ -52,12 +51,26 @@ if os.path.exists(full_file_path):
             st.write("تم قراءة البيانات بنجاح:")
             st.dataframe(df) # لعرض جدول البيانات
 
-            # إنشاء Pie Chart
-            st.subheader("توزيع البيانات (Pie Chart)")
-            fig, ax = plt.subplots()
-            ax.pie(df['Value'], labels=df['Category'], autopct='%1.1f%%', startangle=90)
-            ax.axis('equal') # يضمن أن تكون الدائرة متساوية الأبعاد
-            st.pyplot(fig) # لعرض الرسم البياني في Streamlit
+            # --- إنشاء Pie Chart تفاعلي باستخدام Plotly ---
+            st.subheader("توزيع البيانات التفاعلي (Pie Chart)")
+
+            # استخدام plotly.express لإنشاء Pie Chart
+            # names='Category' لتسميات الشرائح
+            # values='Value' للقيم التي تحدد حجم الشرائح
+            # title لتحديد عنوان للرسم البياني
+            # hover_data لتعريف البيانات الإضافية التي تظهر عند التمرير بالماوس
+            fig = px.pie(df,
+                         names='Category',
+                         values='Value',
+                         title=f"توزيع البيانات لـ {selected_year}",
+                         hole=0.3, # لجعلها دونات شارت اختيارياً
+                         hover_data=['Value']) # عرض القيمة عند التمرير بالماوس
+
+            # تحديث قالب الرسم البياني ليكون أجمل (اختياري)
+            fig.update_traces(textposition='inside', textinfo='percent+label')
+            fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
+
+            st.plotly_chart(fig, use_container_width=True) # لعرض الرسم البياني في Streamlit
 
         else:
             st.warning(f"الملف '{csv_file_name}' لا يحتوي على البيانات المتوقعة أو الأعمدة 'Category' و 'Value'.")
@@ -70,3 +83,6 @@ else:
 
 st.markdown("---")
 st.write("تم التطوير بواسطة: [اسمك/شركتك إن أردت]")
+
+
+
