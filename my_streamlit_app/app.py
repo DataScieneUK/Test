@@ -39,7 +39,7 @@ st.subheader(f"البيانات للسنة: {selected_year}")
 csv_file_name = f"{selected_year}.csv"
 # ندمج مجلد التطبيق مع اسم الملف لتشكيل المسار الكامل
 #full_file_path = os.path.join(app_directory, csv_file_name)
-full_file_path = os.path.join(app_directory + r"/my_streamlit_app/", csv_file_name)
+full_file_path = os.path.join(app_directory ,csv_file_name)
 # التحقق مما إذا كان الملف موجودًا باستخدام المسار الكامل
 if os.path.exists(full_file_path):
     try:
