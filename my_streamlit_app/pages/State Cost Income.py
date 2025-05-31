@@ -51,15 +51,17 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
         'Total Income (Million AED)': state_incomes
     })
     st.dataframe(plot_df.head(5))
+    st.info(plot_df['Year'].dtypes)
+    st.info(plot_df['Total Cost (Million AED)'].dtypes)
 
     fig = px.line(plot_df,
                   x='Year',
-                  y=['Total Cost (Million AED)', 'Total Income (Million AED)'],
+                  y='Total Cost (Million AED)',
+                  # y=['Total Cost (Million AED)', 'Total Income (Million AED)'],
                   title=f'Hospital Financial Performance in {selected_state}',
                   labels={'value': 'Amount (Million AED)', 'variable': 'Metric'},
-                  hover_data={'Total Cost (Million AED)': ':.2f',
-                              'Total Income (Million AED)': ':.2f',
-                              'Year': True},
+                  hover_data={'Total Cost (Million AED)': ':.2f','Year': True},
+                  # hover_data={'Total Cost (Million AED)': ':.2f','Total Income (Million AED)': ':.2f','Year': True},
                   line_shape="linear"
                  )
 
