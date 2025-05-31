@@ -51,15 +51,19 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
         'Total Income (Million AED)': state_incomes
     })
     st.dataframe(plot_df.head(5))
-    st.info(plot_df['Year'].dtypes)
-    st.info(plot_df['Total Cost (Million AED)'].dtypes)
-    y_sorted = plot_df['Total Cost (Million AED)'].sort_values()
-    y_min = y_sorted.min()
-    y_max = y_sorted.max()
+    # st.info(plot_df['Year'].dtypes)
+    # st.info(plot_df['Total Cost (Million AED)'].dtypes)
+    y_sorted1 = plot_df['Total Cost (Million AED)'].sort_values()
+    y_sorted2 = plot_df['Total Income (Million AED)'].sort_values()
+    y_min1 = y_sorted1.min()
+    y_max1 = y_sorted1.max()
+    y_min2 = y_sorted2.min()
+    y_max2 = y_sorted2.max()
 
     fig = px.line(plot_df,
                   x='Year',
                   y='Total Cost (Million AED)',
+                  y='Total Income (Million AED)',
                   # y=['Total Cost (Million AED)', 'Total Income (Million AED)'],
                   title=f'Hospital Financial Performance in {selected_state}',
                   labels={'value': 'Amount (Million AED)', 'variable': 'Metric'},
@@ -72,7 +76,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     fig.update_yaxes(rangemode="tozero")
     fig.update_layout(hovermode="x unified")
     fig.update_layout(xaxis_range=[2020, 2025])
-    fig.update_layout(yaxis_range=[y_min, y_max])
+    fig.update_layout(yaxis_range=[min(y_min1,y_min2), max(y_max1,y_max2)])
 
 
     st.plotly_chart(fig, use_container_width=True)
