@@ -53,6 +53,9 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     st.dataframe(plot_df.head(5))
     st.info(plot_df['Year'].dtypes)
     st.info(plot_df['Total Cost (Million AED)'].dtypes)
+    y_sorted = df['Total Cost (Million AED)'].sort_values()
+    y_min = y_sorted.min()
+    y_max = y_sorted.nsmallest(3).max()
 
     fig = px.line(plot_df,
                   x='Year',
@@ -68,7 +71,9 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     fig.update_xaxes(tickmode='linear', dtick=1)
     fig.update_yaxes(rangemode="tozero")
     fig.update_layout(hovermode="x unified")
-    fig.update_layout(xaxis_range=[2020, 2030])
+    fig.update_layout(xaxis_range=[2020, 2025])
+    fig.update_layout(yaxis_range=[min_value, max_value])
+
 
     st.plotly_chart(fig, use_container_width=True)
 
