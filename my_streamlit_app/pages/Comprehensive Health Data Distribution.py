@@ -179,24 +179,24 @@ with col3:
 #         st.warning(f"Columns 'Hospital rate' or '{patient_col_rate}' not found for chart.")
 
 # --- Chart 10: Distribution of Treatment Types (Requires splitting and counting) ---
-st.markdown("---") # Separator for the last chart if it's on a new row
-st.subheader("Distribution of Treatment Types")
-if 'Types of treatment it contains' in df_hospitals.columns:
-    # Ensure column is string type before splitting
-    all_treatments = df_hospitals['Types of treatment it contains'].astype(str).dropna().str.split(',').explode().str.strip()
-    if not all_treatments.empty:
-        treatment_counts = all_treatments.value_counts().reset_index()
-        treatment_counts.columns = ['Treatment Type', 'Count']
-        # Filter out empty strings that might result from splitting
-        treatment_counts = treatment_counts[treatment_counts['Treatment Type'] != '']
-        if not treatment_counts.empty:
-            create_pie_chart(treatment_counts, 'Treatment Type', 'Count', 'Overall Distribution of Treatment Types')
-        else:
-            st.warning("No valid treatment types found after processing.")
-    else:
-        st.warning("No valid treatment types found in the data.")
-else:
-    st.warning("Column 'Types of treatment it contains' not found for chart.")
+# st.markdown("---") # Separator for the last chart if it's on a new row
+# st.subheader("Distribution of Treatment Types")
+# if 'Types of treatment it contains' in df_hospitals.columns:
+#     # Ensure column is string type before splitting
+#     all_treatments = df_hospitals['Types of treatment it contains'].astype(str).dropna().str.split(',').explode().str.strip()
+#     if not all_treatments.empty:
+#         treatment_counts = all_treatments.value_counts().reset_index()
+#         treatment_counts.columns = ['Treatment Type', 'Count']
+#         # Filter out empty strings that might result from splitting
+#         treatment_counts = treatment_counts[treatment_counts['Treatment Type'] != '']
+#         if not treatment_counts.empty:
+#             create_pie_chart(treatment_counts, 'Treatment Type', 'Count', 'Overall Distribution of Treatment Types')
+#         else:
+#             st.warning("No valid treatment types found after processing.")
+#     else:
+#         st.warning("No valid treatment types found in the data.")
+# else:
+#     st.warning("Column 'Types of treatment it contains' not found for chart.")
 
 
 st.markdown("---")
