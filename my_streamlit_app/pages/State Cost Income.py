@@ -66,7 +66,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
                   title=f'Hospital Financial Performance in {selected_state}',
                   labels={'value': 'Amount (Million AED)', 'variable': 'Metric'},
                   # hover_data={'Total Cost (Million AED)': ':.2f','Year': True},
-                  hover_data={'Total Cost (Million AED)': ':.2f','Total Income (Million AED)': ':.2f','Year': True},
+                  # hover_data={'Total Cost (Million AED)': ':.2f','Total Income (Million AED)': ':.2f','Year': True},
                   line_shape="linear"
                  )
 
