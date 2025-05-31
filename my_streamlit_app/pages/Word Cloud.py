@@ -7,7 +7,7 @@ st.markdown("---")
 # Define the directory where your images are stored
 # This assumes 'assets' is in the main project directory, one level up from 'pages'
 script_dir = os.path.dirname(os.path.abspath(__file__))
-ASSETS_DIR = os.path.abspath(os.path.join(script_dir, os.pardir, "Distribution Charts"))
+ASSETS_DIR = os.path.abspath(os.path.join(script_dir, os.pardir, "Word Cloud"))
 
 st.write("""Explore a visual journey for Word Cloud of medial data reviews in the UAE.""")
 
