@@ -66,6 +66,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     fig.update_xaxes(tickmode='linear', dtick=1)
     fig.update_yaxes(rangemode="tozero")
     fig.update_layout(hovermode="x unified")
+    fig.update_layout(xaxis_range=[2020, 2030])
 
     st.plotly_chart(fig, use_container_width=True)
 
