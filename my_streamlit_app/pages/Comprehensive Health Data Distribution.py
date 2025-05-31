@@ -72,6 +72,14 @@ with col1:
     create_pie_chart(state_counts, 'State', 'Count', 'Distribution of Hospitals by State')
 
 
+# --- Chart 2: Distribution of Doctors by State ---
+with col2:
+    st.subheader("Doctors by State")
+    if 'Number of Doctors' in df_hospitals.columns:
+        create_pie_chart(df_hospitals, 'State', 'Number of Doctors', 'Distribution of Doctors by State')
+    else:
+        st.warning("Column 'Number of Doctors' not found for chart.")
+
 # --- Chart 3: Distribution of Patients by State for Selected Year ---
 with col3:
     st.subheader(f"Patients by State ({selected_year})")
@@ -131,14 +139,6 @@ with col7:
             st.warning("No review data (positive/negative) to display for chart.")
     else:
         st.warning("Columns 'positive reviews' or 'negative reviews' not found for chart.")
-
-# --- Chart 8: Distribution of Doctors by State ---
-with col8:
-    st.subheader("Doctors by State")
-    if 'Number of Doctors' in df_hospitals.columns:
-        create_pie_chart(df_hospitals, 'State', 'Number of Doctors', 'Distribution of Doctors by State')
-    else:
-        st.warning("Column 'Number of Doctors' not found for chart.")
 
 # # --- Chart 9: Distribution of Patients by Hospital Rate (Selected Year) ---
 # with col9:
