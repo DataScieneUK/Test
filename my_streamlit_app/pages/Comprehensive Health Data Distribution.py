@@ -71,27 +71,6 @@ with col1:
     state_counts.columns = ['State', 'Count']
     create_pie_chart(state_counts, 'State', 'Count', 'Distribution of Hospitals by State')
 
-# # --- Chart 2: Distribution of Hospitals by Hospital Rate (Grouped) ---
-# with col2:
-#     st.subheader("Hospital Rating Distribution")
-#     if 'Hospital rate' in df_hospitals.columns:
-#         # Filter out NaN values before cutting
-#         df_temp = df_hospitals.dropna(subset=['Hospital rate']).copy()
-#         if not df_temp.empty:
-#             bins = [0, 3.0, 4.0, 5.0]
-#             labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
-#             # Ensure bins cover the range of your data, max rate is 5.0, so 5.0 is fine for upper bound
-#             # Use pd.cut only on the temporary DataFrame without NaNs
-#             df_temp['Rating Group'] = pd.cut(df_temp['Hospital rate'], bins=bins, labels=labels, right=False)
-#             rating_counts = df_temp['Rating Group'].value_counts().reset_index()
-#             rating_counts.columns = ['Rating Group', 'Count']
-#             # Drop NaN category from rating_counts if any (from values outside bins)
-#             rating_counts = rating_counts.dropna(subset=['Rating Group'])
-#             create_pie_chart(rating_counts, 'Rating Group', 'Count', 'Distribution of Hospital Ratings')
-#         else:
-#             st.warning("No valid 'Hospital rate' data after removing missing values.")
-#     else:
-#         st.warning("Column 'Hospital rate' not found for chart.")
 
 # --- Chart 3: Distribution of Patients by State for Selected Year ---
 with col3:
@@ -132,51 +111,51 @@ with col6:
     else:
         st.warning(f"Column '{surgeries_col}' not found for chart.")
 
-# # --- New Row of Charts ---
-# col7, col8, col9 = st.columns(3)
+# --- New Row of Charts ---
+col7, col8, col9 = st.columns(3)
 
-# # --- Chart 7: Overall Review Sentiment (Positive vs. Negative) ---
-# with col7:
-#     st.subheader("Overall Review Sentiment")
-#     if 'positive reviews' in df_hospitals.columns and 'negative reviews' in df_hospitals.columns:
-#         total_positive = df_hospitals['positive reviews'].sum()
-#         total_negative = df_hospitals['negative reviews'].sum()
-#         sentiment_df = pd.DataFrame({
-#             'Sentiment': ['Positive Reviews', 'Negative Reviews'],
-#             'Count': [total_positive, total_negative]
-#         })
-#         # Only create chart if there's actual data for sentiment
-#         if total_positive > 0 or total_negative > 0:
-#             create_pie_chart(sentiment_df, 'Sentiment', 'Count', 'Overall Review Sentiment')
-#         else:
-#             st.warning("No review data (positive/negative) to display for chart.")
-#     else:
-#         st.warning("Columns 'positive reviews' or 'negative reviews' not found for chart.")
+# --- Chart 7: Overall Review Sentiment (Positive vs. Negative) ---
+with col7:
+    st.subheader("Overall Review Sentiment")
+    if 'positive reviews' in df_hospitals.columns and 'negative reviews' in df_hospitals.columns:
+        total_positive = df_hospitals['positive reviews'].sum()
+        total_negative = df_hospitals['negative reviews'].sum()
+        sentiment_df = pd.DataFrame({
+            'Sentiment': ['Positive Reviews', 'Negative Reviews'],
+            'Count': [total_positive, total_negative]
+        })
+        # Only create chart if there's actual data for sentiment
+        if total_positive > 0 or total_negative > 0:
+            create_pie_chart(sentiment_df, 'Sentiment', 'Count', 'Overall Review Sentiment')
+        else:
+            st.warning("No review data (positive/negative) to display for chart.")
+    else:
+        st.warning("Columns 'positive reviews' or 'negative reviews' not found for chart.")
 
-# # --- Chart 8: Distribution of Doctors by State ---
-# with col8:
-#     st.subheader("Doctors by State")
-#     if 'Number of Doctors' in df_hospitals.columns:
-#         create_pie_chart(df_hospitals, 'State', 'Number of Doctors', 'Distribution of Doctors by State')
-#     else:
-#         st.warning("Column 'Number of Doctors' not found for chart.")
+# --- Chart 8: Distribution of Doctors by State ---
+with col8:
+    st.subheader("Doctors by State")
+    if 'Number of Doctors' in df_hospitals.columns:
+        create_pie_chart(df_hospitals, 'State', 'Number of Doctors', 'Distribution of Doctors by State')
+    else:
+        st.warning("Column 'Number of Doctors' not found for chart.")
 
-# # --- Chart 9: Distribution of Patients by Hospital Rate (Selected Year) ---
-# with col9:
-#     st.subheader(f"Patients by Rating ({selected_year})")
-#     patient_col_rate = f'Number of patients in {selected_year}'
-#     if 'Hospital rate' in df_hospitals.columns and patient_col_rate in df_hospitals.columns:
-#         # Convert to numeric and filter NaN again for this specific chart's data if needed
-#         df_temp_rate = df_hospitals.dropna(subset=['Hospital rate', patient_col_rate]).copy()
-#         if not df_temp_rate.empty:
-#             bins = [0, 3.0, 4.0, 5.0]
-#             labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
-#             df_temp_rate['Rating Group'] = pd.cut(df_temp_rate['Hospital rate'], bins=bins, labels=labels, right=False)
-#             create_pie_chart(df_temp_rate, 'Rating Group', patient_col_rate, f'Patient Distribution by Rating in {selected_year}')
-#         else:
-#             st.warning(f"No valid data for Patients by Rating for '{selected_year}' after removing missing values.")
-#     else:
-#         st.warning(f"Columns 'Hospital rate' or '{patient_col_rate}' not found for chart.")
+# --- Chart 9: Distribution of Patients by Hospital Rate (Selected Year) ---
+with col9:
+    st.subheader(f"Patients by Rating ({selected_year})")
+    patient_col_rate = f'Number of patients in {selected_year}'
+    if 'Hospital rate' in df_hospitals.columns and patient_col_rate in df_hospitals.columns:
+        # Convert to numeric and filter NaN again for this specific chart's data if needed
+        df_temp_rate = df_hospitals.dropna(subset=['Hospital rate', patient_col_rate]).copy()
+        if not df_temp_rate.empty:
+            bins = [0, 3.0, 4.0, 5.0]
+            labels = ['Below 3.0', '3.0 - 3.9', '4.0 - 5.0']
+            df_temp_rate['Rating Group'] = pd.cut(df_temp_rate['Hospital rate'], bins=bins, labels=labels, right=False)
+            create_pie_chart(df_temp_rate, 'Rating Group', patient_col_rate, f'Patient Distribution by Rating in {selected_year}')
+        else:
+            st.warning(f"No valid data for Patients by Rating for '{selected_year}' after removing missing values.")
+    else:
+        st.warning(f"Columns 'Hospital rate' or '{patient_col_rate}' not found for chart.")
 
 # --- Chart 10: Distribution of Treatment Types (Requires splitting and counting) ---
 # st.markdown("---") # Separator for the last chart if it's on a new row
