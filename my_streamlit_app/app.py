@@ -15,7 +15,7 @@ st.markdown("---")
 
 # عرض المسار الحالي للتطبيق
 current_directory = os.getcwd()
-st.info(f"المسار الحالي للتطبيق: **`{current_directory}`**")
+
 st.warning("تأكد أن ملفات CSV موجودة في هذا المسار لتجنب الأخطاء.")
 
 # --- قائمة السنوات المتاحة ---
@@ -38,7 +38,8 @@ st.subheader(f"البيانات للسنة: {selected_year}")
 csv_file_name = f"{selected_year}.csv"
 # ندمج المسار الحالي مع اسم الملف لتشكيل المسار الكامل
 full_file_path = os.path.join(current_directory, csv_file_name)
-
+st.info(f"المسار555555 الحالي للتطبيق: **`{current_directory}`**")
+st.info(f"المسار555555 الحالي للتطبيق: **`{full_file_path}`**")
 # التحقق مما إذا كان الملف موجودًا باستخدام المسار الكامل
 if os.path.exists(full_file_path):
     try:
