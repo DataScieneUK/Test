@@ -16,7 +16,7 @@ st.markdown("---")
 # عرض المسار الحالي لملف التطبيق والمجلد الذي يتواجد فيه
 #st.info(f"المسار الكامل لملف التطبيق (`app.py`): **`{os.path.abspath(__file__)}`**")
 app_directory = os.path.dirname(os.path.abspath(__file__))
-#st.info(f"مجلد التطبيق (المتوقع لملفات CSV): **`{app_directory}`**")
+st.info(f"مجلد التطبيق (المتوقع لملفات CSV): **`{app_directory}`**")
 st.warning("تأكد أن جميع ملفات CSV موجودة في هذا المسار لتجنب الأخطاء.")
 
 # --- قائمة السنوات المتاحة ---
@@ -39,7 +39,7 @@ st.subheader(f"البيانات للسنة: {selected_year}")
 csv_file_name = f"{selected_year}.csv"
 # ندمج مجلد التطبيق مع اسم الملف لتشكيل المسار الكامل
 #full_file_path = os.path.join(app_directory, csv_file_name)
-full_file_path = os.path.join(current_directory + r"/my_streamlit_app/", csv_file_name)
+full_file_path = os.path.join(app_directory + r"/my_streamlit_app/", csv_file_name)
 # التحقق مما إذا كان الملف موجودًا باستخدام المسار الكامل
 if os.path.exists(full_file_path):
     try:
