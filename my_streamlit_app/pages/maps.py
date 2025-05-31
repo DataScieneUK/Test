@@ -57,8 +57,8 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     if not df_hospitals.empty:
         # Create the interactive map using Plotly Express
         fig = px.scatter_mapbox(df_hospitals,
-                                lat="Location_Lat",
-                                lon="Location_Lon",
+                                # lat="Location_Lat",
+                                # lon="Location_Lon",
                                 hover_name="Name of hospital or clinic", # الاسم الذي يظهر في التلميح الرئيسي
                                 hover_data=existing_hover_cols, # البيانات الإضافية التي تظهر عند التمرير
                                 color="State", # تلوين النقاط حسب الولاية (اختياري)
