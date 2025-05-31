@@ -55,7 +55,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     st.info(plot_df['Total Cost (Million AED)'].dtypes)
     y_sorted = plot_df['Total Cost (Million AED)'].sort_values()
     y_min = y_sorted.min()
-    y_max = y_sorted.nsmallest(3).max()
+    y_max = y_sorted.max()
 
     fig = px.line(plot_df,
                   x='Year',
