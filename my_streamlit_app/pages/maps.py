@@ -15,8 +15,8 @@ app_directory = os.path.dirname(os.path.abspath(__file__))
 data_directory = os.path.abspath(os.path.join(app_directory, os.pardir))
 HOSPITALS_DATA_PATH = os.path.join(data_directory, "UAE_hospitals_data.csv")
 
-st.info(f"مجلد البيانات (المتوقع لملف المستشفيات): **`{data_directory}`**")
-st.warning(f"تأكد أن ملف '{os.path.basename(HOSPITALS_DATA_PATH)}' موجود في هذا المسار لتجنب الأخطاء.")
+# st.info(f"مجلد البيانات (المتوقع لملف المستشفيات): **`{data_directory}`**")
+# st.warning(f"تأكد أن ملف '{os.path.basename(HOSPITALS_DATA_PATH)}' موجود في هذا المسار لتجنب الأخطاء.")
 
 # --- Load Data ---
 df_hospitals = pd.DataFrame() # تعريف DataFrame فارغ مبدئياً
@@ -57,8 +57,8 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     if not df_hospitals.empty:
         # Create the interactive map using Plotly Express
         fig = px.scatter_mapbox(df_hospitals,
-                                # lat="Location_Lat",
-                                # lon="Location_Lon",
+                                lat="Location_Lat",
+                                lon="Location_Lon",
                                 hover_name="Name of hospital or clinic", # الاسم الذي يظهر في التلميح الرئيسي
                                 hover_data=existing_hover_cols, # البيانات الإضافية التي تظهر عند التمرير
                                 color="State", # تلوين النقاط حسب الولاية (اختياري)
