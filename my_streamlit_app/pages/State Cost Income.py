@@ -43,7 +43,7 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
 
     state_costs = [df_state[col].sum() for col in cost_cols]
     state_incomes = [df_state[col].sum() for col in income_cols]
-    st.info(state_costs[0])
+    # st.info(state_costs[0])
 
     plot_df = pd.DataFrame({
         'Year': years,
@@ -70,18 +70,9 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
                   line_shape="linear"
                  )
 
-    # fig = px.line(plot_df,
-    #               x='Year',
-    #               y='Total Cost (Million AED)',
-    #               y='Total Income (Million AED)',
-    #               # y=['Total Cost (Million AED)', 'Total Income (Million AED)'],
-    #               title=f'Hospital Financial Performance in {selected_state}',
-    #               labels={'value': 'Amount (Million AED)', 'variable': 'Metric'},
-    #               hover_data={'Total Cost (Million AED)': ':.2f','Year': True},
-    #               # hover_data={'Total Cost (Million AED)': ':.2f','Total Income (Million AED)': ':.2f','Year': True},
-    #               line_shape="linear"
-    #              )
 
+
+    fig.update_layout(xaxis=dict(showline=True,linecolor='black',linewidth=1),yaxis=dict(showline=True,linecolor='black',linewidth=1))
     fig.update_xaxes(tickmode='linear', dtick=1)
     fig.update_yaxes(rangemode="tozero")
     fig.update_layout(hovermode="x unified")
