@@ -42,10 +42,10 @@ if not df_hospitals.empty and all(col in df_hospitals.columns for col in require
     # Define hover data columns
     hover_cols = [
         'Hospital rate',
-        'State',
+        # 'State',
         'Number of Doctors',
         'Number of patients in 2020',
-        'Types of treatment it contains',
+        # 'Types of treatment it contains',
         'total cost of the hospital in 2020 (million AED)',
         'total income of the hospital in 2020 (million AED)',
         'total number of surgeries in 2020'
